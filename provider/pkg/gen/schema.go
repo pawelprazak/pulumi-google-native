@@ -501,6 +501,7 @@ func (g *packageGenerator) genResource(typeName string, dd discoveryDocumentReso
 		if isRequired(param) {
 			requiredInputProperties.Add(sdkName)
 			requiredProperties.Add(sdkName)
+			p.Required = true
 		}
 		properties[sdkName] = inputProperties[sdkName]
 	}
@@ -518,8 +519,9 @@ func (g *packageGenerator) genResource(typeName string, dd discoveryDocumentReso
 		}
 		properties[sdkName] = inputProperties[sdkName]
 		p := resources.CloudAPIResourceParam{
-			Name: name,
-			Kind: "path",
+			Name:     name,
+			Kind:     "path",
+			Required: true,
 		}
 		if sdkName != name {
 			p.SdkName = sdkName
@@ -671,9 +673,10 @@ func (g *packageGenerator) genResource(typeName string, dd discoveryDocumentReso
 			//       is always based on the GET method, so this may not be universally correct.
 			for _, k := range codegen.SortedKeys(vals) {
 				v := resources.CloudAPIResourceParam{
-					Name:    k,
-					SdkName: vals[k],
-					Kind:    "path",
+					Name:     k,
+					SdkName:  vals[k],
+					Kind:     "path",
+					Required: true,
 				}
 				if queryValNames.Has(k) {
 					v.Kind = "query"
@@ -702,9 +705,10 @@ func (g *packageGenerator) genResource(typeName string, dd discoveryDocumentReso
 			if value.Format == "google-fieldmask" && isRequired(value) {
 				resourceMeta.Update.Endpoint.Values = append(resourceMeta.Update.Endpoint.Values,
 					resources.CloudAPIResourceParam{
-						Name:    name,
-						SdkName: name,
-						Kind:    value.Location,
+						Name:     name,
+						SdkName:  name,
+						Kind:     value.Location,
+						Required: true,
 					})
 			}
 		}

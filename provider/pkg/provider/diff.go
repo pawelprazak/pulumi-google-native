@@ -58,8 +58,9 @@ func calculateDetailedDiff(resource *resources.CloudAPIResource, types map[strin
 	populateReplaceKeys := func(params []resources.CloudAPIResourceParam,
 		properties map[string]resources.CloudAPIProperty) {
 		for _, p := range params {
-			// All the parameters that are part of the resource path cause a replacement.
-			if p.Kind == "path" {
+			// All path parameters that are part of the resource create URI as well as required query params
+			// automatically cause a replacement.
+			if p.Kind == "path" || p.Required {
 				name := p.Name
 				if p.SdkName != "" {
 					name = p.SdkName

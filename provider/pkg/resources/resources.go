@@ -202,6 +202,8 @@ type CloudAPIResourceParam struct {
 	SdkName string `json:"sdkName,omitempty"`
 	// Kind is the kind of parameter, either "path" or "query"
 	Kind string `json:"kind"`
+	// Required is true if the parameter is required.
+	Required bool `json:"required,omitempty"`
 }
 
 // ResourceURL returns the resource API URL by joining the base URL with the resource path.
